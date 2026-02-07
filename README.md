@@ -2,7 +2,7 @@
 
 A magical, wizard-themed Python learning app for young witches and wizards (ages 10-12). Learn programming through casting spells, brewing potions, and drawing with your wand!
 
-**[Try it live](https://yourusername.github.io/python-wizard-academy/)** *(update after deploying)*
+**[Try it live](https://peter8zero.github.io/python-wizard-academy/)** 
 
 ## Features
 
