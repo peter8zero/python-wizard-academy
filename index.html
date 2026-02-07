@@ -29,6 +29,39 @@
             --border-color: #3d2a5c;
             --success: #2ecc71;
             --error: #e74c3c;
+            --code-bg: #0d0d1a;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f5f0e8;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --accent-gold: #b8860b;
+            --accent-gold-light: #daa520;
+            --accent-purple: #7b2d8e;
+            --accent-blue: #0288d1;
+            --accent-green: #27ae60;
+            --accent-red: #c0392b;
+            --text-primary: #2c1810;
+            --text-secondary: #5c4a3d;
+            --text-muted: #8b7355;
+            --border-color: #d4c4a8;
+            --success: #27ae60;
+            --error: #c0392b;
+            --code-bg: #2d2d2d;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .stars {
+            opacity: 0.3;
+        }
+
+        [data-theme="light"] .magic-bg::before {
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(155, 89, 182, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(212, 168, 75, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(79, 195, 247, 0.03) 0%, transparent 70%);
         }
 
         body {
@@ -130,6 +163,7 @@
             padding: 0.8rem 1.5rem;
             border-radius: 30px;
             border: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px var(--shadow-color);
         }
 
         .points-icon {
@@ -205,6 +239,7 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
 
         .lesson-card::before {
@@ -310,6 +345,7 @@
             border: 1px solid var(--border-color);
             border-radius: 16px;
             overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
 
         .panel-header {
@@ -587,6 +623,7 @@
             padding: 1.5rem;
             text-align: center;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
 
         .achievement-card.unlocked {
@@ -633,6 +670,7 @@
             border-radius: 12px;
             padding: 1.5rem;
             text-align: center;
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
 
         .stat-value {
@@ -744,6 +782,64 @@
             background: var(--accent-gold);
         }
 
+        /* Theme Toggle */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent-gold);
+        }
+
+        .theme-toggle .toggle-track {
+            width: 44px;
+            height: 24px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-toggle .toggle-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            position: absolute;
+            top: 1px;
+            left: 2px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        [data-theme="light"] .theme-toggle .toggle-thumb {
+            left: 20px;
+        }
+
+        .theme-toggle .toggle-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             header {
@@ -797,12 +893,22 @@
                 <div class="points-label">House Points</div>
             </div>
         </div>
-        <nav>
-            <button class="active" data-view="lessons">Lessons</button>
-            <button data-view="sandbox">Free Practice</button>
-            <button data-view="spellbook">Spellbook</button>
-            <button data-view="achievements">Achievements</button>
-        </nav>
+        <div class="header-controls">
+            <nav>
+                <button class="active" data-view="lessons">Lessons</button>
+                <button data-view="sandbox">Free Practice</button>
+                <button data-view="spellbook">Spellbook</button>
+                <button data-view="achievements">Achievements</button>
+            </nav>
+            <div class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode">
+                <span class="toggle-label">Theme</span>
+                <div class="toggle-track">
+                    <div class="toggle-thumb">
+                        <span id="theme-icon">🌙</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
 
     <main class="container">
@@ -942,7 +1048,7 @@
 
 print('Hello, Wizard!')
 
-name = 'Harry'
+name = 'Alex'
 print('Welcome, ' + name)
 
 for i in range(5):
@@ -971,7 +1077,7 @@ for i in range(5):
                     <h3>🔮 Basic Incantations</h3>
                     <div class="spell-entry">
                         <code>print("message")</code>
-                        <p>Makes words appear magically! Like casting Lumos to reveal text.</p>
+                        <p>Makes words appear magically! Like casting Illuminate to reveal text.</p>
                     </div>
                     <div class="spell-entry">
                         <code>input("question")</code>
@@ -982,7 +1088,7 @@ for i in range(5):
                 <div class="spell-category">
                     <h3>📦 Magical Containers (Variables)</h3>
                     <div class="spell-entry">
-                        <code>name = "Hermione"</code>
+                        <code>name = "Luna"</code>
                         <p>Stores a piece of text (called a "string") in a magical container.</p>
                     </div>
                     <div class="spell-entry">
@@ -1004,7 +1110,7 @@ for i in range(5):
                 </div>
 
                 <div class="spell-category">
-                    <h3>🎭 The Sorting Hat (Decisions)</h3>
+                    <h3>🎭 The Magic Hat (Decisions)</h3>
                     <div class="spell-entry">
                         <code>if condition:</code>
                         <p>Do something only IF a condition is true.</p>
@@ -1116,15 +1222,15 @@ for i in range(5):
             {
                 id: 1,
                 title: "Your First Spell",
-                subtitle: "Lumos - Making Words Appear",
+                subtitle: "Illuminate - Making Words Appear",
                 icon: "💡",
                 points: 10,
                 instructions: `
-                    <h3>💡 Lumos - Your First Spell!</h3>
+                    <h3>💡 Illuminate - Your First Spell!</h3>
                     <p>Every witch and wizard starts by learning to make light appear from their wand. In Python, we make <strong>words appear</strong> using the <code>print()</code> spell!</p>
 
                     <p>Type this magical incantation:</p>
-                    <pre><code>print("Lumos!")</code></pre>
+                    <pre><code>print("Illuminate!")</code></pre>
 
                     <p>The words inside the quotes will magically appear below!</p>
 
@@ -1132,10 +1238,10 @@ for i in range(5):
                         Make sure to use quote marks " " around your words, and don't forget the brackets ( )
                     </div>
 
-                    <p><strong>Your Challenge:</strong> Make the spell print exactly: <code>Lumos!</code></p>
+                    <p><strong>Your Challenge:</strong> Make the spell print exactly: <code>Illuminate!</code></p>
                 `,
-                starterCode: '# Type your spell below:\nprint("Lumos!")',
-                validator: (output) => output.trim() === 'Lumos!',
+                starterCode: '# Type your spell below:\nprint("Illuminate!")',
+                validator: (output) => output.trim() === 'Illuminate!',
                 successMessage: "Brilliant! You've cast your first spell! The light shines bright! ✨"
             },
             {
@@ -1146,13 +1252,13 @@ for i in range(5):
                 points: 15,
                 instructions: `
                     <h3>🦉 Magical Containers (Variables)</h3>
-                    <p>When you arrive at Hogwarts, you need to name your owl! In Python, we store names and other information in <strong>magical containers</strong> called variables.</p>
+                    <p>When you arrive at the academy, you need to name your owl! In Python, we store names and other information in <strong>magical containers</strong> called variables.</p>
 
                     <p>Here's how to store a name:</p>
-                    <pre><code>owl_name = "Hedwig"
+                    <pre><code>owl_name = "Stardust"
 print(owl_name)</code></pre>
 
-                    <p>The <code>=</code> sign puts the name "Hedwig" inside the container called <code>owl_name</code>.</p>
+                    <p>The <code>=</code> sign puts the name "Stardust" inside the container called <code>owl_name</code>.</p>
 
                     <div class="hint-box">
                         Variable names can't have spaces! Use underscores _ instead.
@@ -1197,7 +1303,7 @@ print(total)</code></pre>
                 `,
                 starterCode: '# Calculate your potion ingredients!\nunicorn_hairs = 3\nphoenix_feathers = 7\ndragon_scales = 2\n\ntotal = \nprint(total)',
                 validator: (output) => output.trim() === '12',
-                successMessage: "Perfect calculations! Professor Snape would be impressed! ⚗️"
+                successMessage: "Perfect calculations! The potions master would be impressed! ⚗️"
             },
             {
                 id: 4,
@@ -1206,13 +1312,13 @@ print(total)</code></pre>
                 icon: "🎩",
                 points: 20,
                 instructions: `
-                    <h3>🎩 The Sorting Hat's Decision</h3>
-                    <p>The Sorting Hat makes decisions based on what it sees! Python can make decisions too using <code>if</code> and <code>else</code>:</p>
+                    <h3>🎩 The Magic Hat's Decision</h3>
+                    <p>The Magic Hat makes decisions based on what it sees! Python can make decisions too using <code>if</code> and <code>else</code>:</p>
 
                     <pre><code>bravery = 10
 
 if bravery > 7:
-    print("Gryffindor!")
+    print("Brave!")
 else:
     print("Another house...")</code></pre>
 
@@ -1222,21 +1328,21 @@ else:
                         The spaces before print() are important! They're called "indentation" and show what belongs inside the if.
                     </div>
 
-                    <p><strong>Your Challenge:</strong> Complete the sorting spell! If <code>wisdom</code> is greater than 8, print <code>Ravenclaw!</code></p>
+                    <p><strong>Your Challenge:</strong> Complete the sorting spell! If <code>wisdom</code> is greater than 8, print <code>Wise!</code></p>
                 `,
-                starterCode: '# Complete the Sorting Hat spell!\nwisdom = 9\n\nif wisdom > 8:\n    print("Ravenclaw!")\nelse:\n    print("Keep studying!")',
-                validator: (output) => output.trim() === 'Ravenclaw!',
-                successMessage: "The Sorting Hat has spoken! Welcome to your house! 🎩"
+                starterCode: '# Complete the Magic Hat spell!\nwisdom = 9\n\nif wisdom > 8:\n    print("Wise!")\nelse:\n    print("Keep studying!")',
+                validator: (output) => output.trim() === 'Wise!',
+                successMessage: "The Magic Hat has spoken! Welcome to your house! 🎩"
             },
             {
                 id: 5,
-                title: "Quidditch Practice",
+                title: "Broomstick Practice",
                 subtitle: "Loops - Repeating Actions",
                 icon: "🧹",
                 points: 20,
                 instructions: `
-                    <h3>🧹 Quidditch Training - Loops</h3>
-                    <p>In Quidditch, you practice the same moves over and over! Python can repeat things using <strong>loops</strong>:</p>
+                    <h3>🧹 Broomstick Training - Loops</h3>
+                    <p>In Broomstick, you practice the same moves over and over! Python can repeat things using <strong>loops</strong>:</p>
 
                     <pre><code>for lap in range(3):
     print("Fly around the pitch!")</code></pre>
@@ -1247,11 +1353,11 @@ else:
                         <code>range(5)</code> counts: 0, 1, 2, 3, 4 (that's 5 numbers, starting from 0!)
                     </div>
 
-                    <p><strong>Your Challenge:</strong> Make the seeker practice catching the snitch 5 times! Print <code>Catch!</code> exactly 5 times.</p>
+                    <p><strong>Your Challenge:</strong> Practice catching the golden ball 5 times! Print <code>Catch!</code> exactly 5 times.</p>
                 `,
-                starterCode: '# Quidditch practice - repeat 5 times!\nfor attempt in range(5):\n    print("Catch!")',
+                starterCode: '# Broomstick practice - repeat 5 times!\nfor attempt in range(5):\n    print("Catch!")',
                 validator: (output) => output.trim().split('\n').filter(l => l.trim() === 'Catch!').length === 5,
-                successMessage: "Excellent flying! You caught the snitch every time! 🏆"
+                successMessage: "Excellent flying! You caught it every time! 🏆"
             },
             {
                 id: 6,
@@ -1261,7 +1367,7 @@ else:
                 points: 20,
                 instructions: `
                     <h3>🐉 Magical Creatures List</h3>
-                    <p>Hagrid keeps a list of all his magical creatures! In Python, a <strong>list</strong> holds multiple items:</p>
+                    <p>The creature keeper has a list of all his magical creatures! In Python, a <strong>list</strong> holds multiple items:</p>
 
                     <pre><code>creatures = ["Hippogriff", "Dragon", "Phoenix"]
 print(creatures[0])  # Prints: Hippogriff</code></pre>
@@ -1289,12 +1395,12 @@ print(creatures[0])  # Prints: Hippogriff</code></pre>
                     <h3>✨ Inventing New Spells (Functions)</h3>
                     <p>Advanced wizards can create their own spells! In Python, we call these <strong>functions</strong>:</p>
 
-                    <pre><code>def cast_lumos():
+                    <pre><code>def cast_glow():
     print("✨ Light appears!")
     print("The room brightens!")
 
 # Use your spell:
-cast_lumos()</code></pre>
+cast_glow()</code></pre>
 
                     <p>Once you create a function with <code>def</code>, you can use it whenever you want!</p>
 
@@ -1302,10 +1408,10 @@ cast_lumos()</code></pre>
                         Don't forget the colon : after the function name, and indent the code inside!
                     </div>
 
-                    <p><strong>Your Challenge:</strong> Create a function called <code>cast_expelliarmus</code> that prints <code>Expelliarmus!</code>, then call it!</p>
+                    <p><strong>Your Challenge:</strong> Create a function called <code>cast_sparkle</code> that prints <code>Sparkle!</code>, then call it!</p>
                 `,
-                starterCode: '# Create your own spell!\ndef cast_expelliarmus():\n    print("Expelliarmus!")\n\n# Cast your spell:\ncast_expelliarmus()',
-                validator: (output) => output.trim().includes('Expelliarmus!'),
+                starterCode: '# Create your own spell!\ndef cast_sparkle():\n    print("Sparkle!")\n\n# Cast your spell:\ncast_sparkle()',
+                validator: (output) => output.trim().includes('Sparkle!'),
                 successMessage: "Incredible! You've invented your own spell! You're becoming a true wizard! ✨"
             },
             {
@@ -1321,30 +1427,30 @@ cast_lumos()</code></pre>
                     <pre><code>def greet_wizard(name):
     print("Hello, " + name + "!")
 
-greet_wizard("Harry")
-greet_wizard("Hermione")</code></pre>
+greet_wizard("Alex")
+greet_wizard("Luna")</code></pre>
 
                     <p>The <code>name</code> in brackets is like a blank space that gets filled in when you use the spell!</p>
 
-                    <p><strong>Your Challenge:</strong> Create a function <code>summon</code> that takes an <code>animal</code> parameter and prints <code>Accio [animal]!</code></p>
-                    <p>For example, <code>summon("owl")</code> should print <code>Accio owl!</code></p>
+                    <p><strong>Your Challenge:</strong> Create a function <code>summon</code> that takes an <code>animal</code> parameter and prints <code>Summon [animal]!</code></p>
+                    <p>For example, <code>summon("owl")</code> should print <code>Summon owl!</code></p>
                 `,
-                starterCode: '# Create a summoning spell!\ndef summon(animal):\n    print("Accio " + animal + "!")\n\n# Test your spell:\nsummon("broomstick")',
-                validator: (output) => output.trim().startsWith('Accio') && output.trim().endsWith('!'),
+                starterCode: '# Create a summoning spell!\ndef summon(animal):\n    print("Summon " + animal + "!")\n\n# Test your spell:\nsummon("broomstick")',
+                validator: (output) => output.trim().startsWith('Summon') && output.trim().endsWith('!'),
                 successMessage: "Masterful! You can now create powerful, flexible spells! 🧙‍♂️"
             },
             {
                 id: 9,
-                title: "The Marauder's Map",
+                title: "The Enchanted Map",
                 subtitle: "Combining Everything",
                 icon: "🗺️",
                 points: 30,
                 instructions: `
-                    <h3>🗺️ The Marauder's Map</h3>
-                    <p>Time to combine all your skills! The Marauder's Map shows people moving around Hogwarts.</p>
+                    <h3>🗺️ The Enchanted Map</h3>
+                    <p>Time to combine all your skills! The Enchanted Map shows people moving around the academy.</p>
 
                     <p>Let's create a spell that tracks people:</p>
-                    <pre><code>people = ["Harry", "Ron", "Hermione"]
+                    <pre><code>people = ["Alex", "Sam", "Luna"]
 
 def track(person):
     print(person + " is on the move!")
@@ -1354,7 +1460,7 @@ for person in people:
 
                     <p><strong>Your Challenge:</strong> Create a list of 3 people and use a loop to track each one. The output should show all 3 people "on the move"!</p>
                 `,
-                starterCode: '# The Marauder\'s Map\npeople = ["Harry", "Ron", "Hermione"]\n\ndef track(person):\n    print(person + " is on the move!")\n\nfor person in people:\n    track(person)',
+                starterCode: '# The Enchanted Map\npeople = ["Alex", "Sam", "Luna"]\n\ndef track(person):\n    print(person + " is on the move!")\n\nfor person in people:\n    track(person)',
                 validator: (output) => output.trim().split('\n').length >= 3 && output.includes('on the move'),
                 successMessage: "Mischief managed! You've mastered Python basics! 🗺️"
             },
@@ -1388,7 +1494,7 @@ pendown()      # Start drawing again</code></pre>
         const achievements = [
             { id: 'first_spell', title: 'First Spell', desc: 'Cast your first spell', icon: '🌟', condition: (p) => p.lessonsCompleted >= 1 },
             { id: 'apprentice', title: 'Apprentice Wizard', desc: 'Complete 3 lessons', icon: '🧙', condition: (p) => p.lessonsCompleted >= 3 },
-            { id: 'student', title: 'Hogwarts Student', desc: 'Complete 5 lessons', icon: '🏰', condition: (p) => p.lessonsCompleted >= 5 },
+            { id: 'student', title: 'Academy Student', desc: 'Complete 5 lessons', icon: '🏰', condition: (p) => p.lessonsCompleted >= 5 },
             { id: 'adept', title: 'Magical Adept', desc: 'Complete all lessons', icon: '⚡', condition: (p) => p.lessonsCompleted >= lessons.length },
             { id: 'points_50', title: 'Point Collector', desc: 'Earn 50 House Points', icon: '⭐', condition: (p) => p.totalPoints >= 50 },
             { id: 'points_100', title: 'House Champion', desc: 'Earn 100 House Points', icon: '🏆', condition: (p) => p.totalPoints >= 100 },
@@ -1759,12 +1865,37 @@ sys.stdout = StringIO()
                 document.getElementById('sandbox-output').innerHTML = '';
             });
 
-            // Export/Import
+            // Theme Toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+
+            function setTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                themeIcon.textContent = theme === 'light' ? '☀️' : '🌙';
+                localStorage.setItem('wizard_academy_theme', theme);
+            }
+
+            function toggleTheme() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                setTheme(newTheme);
+            }
+
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // Load saved theme
+            const savedTheme = localStorage.getItem('wizard_academy_theme') || 'dark';
+            setTheme(savedTheme);
+
+            // Export Progress
             document.getElementById('export-save').addEventListener('click', () => {
+                const theme = localStorage.getItem('wizard_academy_theme') || 'dark';
+
                 const data = {
                     version: 1,
                     exportedAt: new Date().toISOString(),
-                    progress: progress
+                    progress: progress,
+                    theme: theme
                 };
 
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -1772,10 +1903,13 @@ sys.stdout = StringIO()
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = `wizard-academy-progress-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
                 a.click();
+                document.body.removeChild(a);
                 URL.revokeObjectURL(url);
             });
 
+            // Import Progress
             document.getElementById('import-save').addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -1784,11 +1918,40 @@ sys.stdout = StringIO()
                 reader.onload = (event) => {
                     try {
                         const data = JSON.parse(event.target.result);
-                        if (data.progress) {
-                            progress = data.progress;
-                            saveProgress();
-                            alert('Progress imported successfully! ✨');
+
+                        if (!data.progress) {
+                            throw new Error('Invalid file format');
                         }
+
+                        const currentProgress = loadProgress();
+                        const mergeChoice = currentProgress.totalPoints > 0
+                            ? confirm('You have existing progress. Click OK to merge (keep best stats), or Cancel to replace entirely.')
+                            : false;
+
+                        if (mergeChoice) {
+                            // Merge: keep best stats, combine completed lessons
+                            const mergedLessons = [...new Set([...data.progress.completedLessons, ...currentProgress.completedLessons])];
+                            const merged = {
+                                totalPoints: Math.max(data.progress.totalPoints || 0, currentProgress.totalPoints || 0),
+                                lessonsCompleted: mergedLessons.length,
+                                completedLessons: mergedLessons,
+                                spellsCast: (data.progress.spellsCast || 0) + (currentProgress.spellsCast || 0),
+                                achievements: [...new Set([...data.progress.achievements || [], ...currentProgress.achievements || []])]
+                            };
+                            progress = merged;
+                        } else {
+                            // Replace entirely
+                            progress = data.progress;
+                        }
+
+                        saveProgress();
+
+                        // Restore theme if present
+                        if (data.theme) {
+                            setTheme(data.theme);
+                        }
+
+                        alert('Progress imported successfully! ✨');
                     } catch (err) {
                         alert('Error importing file: ' + err.message);
                     }
