@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Wizard Academy - Learn Magic Through Code</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Fira+Code:wght@400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #1a0a2e;
+            --bg-secondary: #16082a;
+            --bg-card: #251749;
+            --accent-gold: #d4a84b;
+            --accent-gold-light: #f4d675;
+            --accent-purple: #9b59b6;
+            --accent-blue: #4fc3f7;
+            --accent-green: #2ecc71;
+            --accent-red: #e74c3c;
+            --text-primary: #f5f5f5;
+            --text-secondary: #c0b8d0;
+            --text-muted: #8a7fa8;
+            --border-color: #3d2a5c;
+            --success: #2ecc71;
+            --error: #e74c3c;
+        }
+
+        body {
+            font-family: 'Crimson Text', Georgia, serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Magical Background */
+        .magic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .magic-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(155, 89, 182, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(212, 168, 75, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(79, 195, 247, 0.05) 0%, transparent 70%);
+            animation: magicPulse 10s ease-in-out infinite;
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 160px 120px, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1px 1px at 230px 80px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(2px 2px at 300px 150px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 350px 50px, rgba(255,255,255,0.9), transparent);
+            background-repeat: repeat;
+            background-size: 400px 200px;
+            animation: twinkle 5s ease-in-out infinite;
+        }
+
+        @keyframes magicPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+            padding: 1rem 2rem;
+            border-bottom: 2px solid var(--accent-gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            text-shadow: 0 0 20px rgba(212, 168, 75, 0.5);
+        }
+
+        .logo .subtitle {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* House Points Display */
+        .house-points {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--bg-secondary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .points-icon {
+            font-size: 1.5rem;
+        }
+
+        .points-value {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .points-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        nav button {
+            font-family: 'Cinzel', serif;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        nav button:hover, nav button.active {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            border-color: var(--accent-gold);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* Views */
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        /* Lesson Selection */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .lesson-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lesson-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-purple));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(212, 168, 75, 0.2);
+            border-color: var(--accent-gold);
+        }
+
+        .lesson-card:hover::before {
+            opacity: 1;
+        }
+
+        .lesson-card.completed {
+            border-color: var(--success);
+        }
+
+        .lesson-card.completed::after {
+            content: '✓';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 30px;
+            height: 30px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .lesson-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .lesson-card.locked:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .lesson-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-number {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .lesson-points {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+        }
+
+        /* Coding Area */
+        .coding-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 1000px) {
+            .coding-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: var(--bg-secondary);
+            padding: 0.8rem 1.2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--accent-gold);
+        }
+
+        /* Instructions Panel */
+        .instructions {
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .instructions h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .instructions p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .instructions code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-secondary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--accent-blue);
+            font-size: 0.95rem;
+        }
+
+        .instructions pre {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .instructions pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .spell-name {
+            color: var(--accent-purple);
+            font-weight: 600;
+        }
+
+        .hint-box {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .hint-box::before {
+            content: '💡 Hint: ';
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        /* Code Editor */
+        .code-editor {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            padding: 1rem;
+            background: #0d0d1a;
+            color: var(--text-primary);
+            border: none;
+            width: 100%;
+            min-height: 200px;
+            resize: vertical;
+            outline: none;
+        }
+
+        .code-editor::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Output Console */
+        .output-console {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            padding: 1rem;
+            background: #0a0a15;
+            min-height: 150px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .output-success {
+            color: var(--success);
+        }
+
+        .output-error {
+            color: var(--error);
+        }
+
+        .output-info {
+            color: var(--accent-blue);
+        }
+
+        /* Turtle Canvas */
+        .turtle-container {
+            background: white;
+            border-radius: 8px;
+            margin: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+        }
+
+        #turtle-canvas {
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        /* Buttons */
+        .btn {
+            font-family: 'Cinzel', serif;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-magic {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, #c49b38 100%);
+            color: var(--bg-primary);
+            font-weight: 600;
+        }
+
+        .btn-magic:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 168, 75, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Challenge Result */
+        .challenge-result {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .challenge-result.success {
+            display: block;
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid var(--success);
+        }
+
+        .challenge-result.error {
+            display: block;
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid var(--error);
+        }
+
+        .challenge-result h4 {
+            font-family: 'Cinzel', serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .points-earned {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        /* Spellbook (Reference) */
+        .spellbook {
+            padding: 1.5rem;
+        }
+
+        .spellbook h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .spell-category {
+            margin-bottom: 2rem;
+        }
+
+        .spell-category h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .spell-entry {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .spell-entry code {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-blue);
+            font-size: 1rem;
+        }
+
+        .spell-entry p {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Achievements */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .achievement-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-card.unlocked {
+            border-color: var(--accent-gold);
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(212, 168, 75, 0.1) 100%);
+        }
+
+        .achievement-card.locked {
+            opacity: 0.4;
+        }
+
+        .achievement-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-card.locked .achievement-icon {
+            filter: grayscale(100%);
+        }
+
+        .achievement-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .achievement-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Progress Section */
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Loading Screen */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        .loading-wand {
+            font-size: 4rem;
+            animation: wandWave 1s ease-in-out infinite;
+        }
+
+        @keyframes wandWave {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        .loading-text {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            margin-top: 1rem;
+        }
+
+        .loading-subtext {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Sandbox Mode */
+        .sandbox-intro {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .sandbox-intro h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-gold);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .sandbox-intro p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .house-points {
+                padding: 0.5rem 1rem;
+            }
+
+            nav button {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .lesson-card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="magic-bg">
+        <div class="stars"></div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading-overlay" id="loading">
+        <div class="loading-wand">🪄</div>
+        <div class="loading-text">Preparing the Magic...</div>
+        <div class="loading-subtext">Loading Python spellbook</div>
+    </div>
+
+    <header>
+        <div class="logo">
+            Python Wizard Academy
+            <span class="subtitle">Learn Magic Through Code</span>
+        </div>
+        <div class="house-points">
+            <span class="points-icon">⭐</span>
+            <div>
+                <div class="points-value" id="total-points">0</div>
+                <div class="points-label">House Points</div>
+            </div>
+        </div>
+        <nav>
+            <button class="active" data-view="lessons">Lessons</button>
+            <button data-view="sandbox">Free Practice</button>
+            <button data-view="spellbook">Spellbook</button>
+            <button data-view="achievements">Achievements</button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Lessons View -->
+        <section id="lessons-view" class="view active">
+            <h2 style="font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 1.8rem; margin-bottom: 0.5rem;">
+                Your Magical Journey
+            </h2>
+            <p style="color: var(--text-secondary);">Complete lessons to earn House Points and unlock new spells!</p>
+
+            <div class="lessons-grid" id="lessons-grid">
+                <!-- Lessons populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Lesson Content View -->
+        <section id="lesson-view" class="view">
+            <div class="back-btn" id="back-to-lessons">
+                ← Back to Lessons
+            </div>
+
+            <div class="coding-layout">
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title" id="lesson-title">Lesson</span>
+                        <span id="lesson-points-display">+10 ⭐</span>
+                    </div>
+                    <div class="instructions" id="lesson-instructions">
+                        <!-- Lesson content populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div>
+                    <div class="panel" style="margin-bottom: 1rem;">
+                        <div class="panel-header">
+                            <span class="panel-title">✨ Your Spell (Code)</span>
+                            <div class="controls">
+                                <button class="btn btn-magic" id="run-code">
+                                    🪄 Cast Spell
+                                </button>
+                                <button class="btn btn-secondary" id="reset-code">
+                                    🔄 Reset
+                                </button>
+                            </div>
+                        </div>
+                        <textarea class="code-editor" id="code-editor" placeholder="Write your magical code here..." spellcheck="false"></textarea>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">📜 Magical Output</span>
+                            <button class="btn btn-secondary" id="clear-output" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">
+                                Clear
+                            </button>
+                        </div>
+                        <div class="output-console" id="output-console"></div>
+                    </div>
+
+                    <div class="challenge-result" id="challenge-result">
+                        <h4>🎉 Spell Cast Successfully!</h4>
+                        <p id="result-message">You've mastered this magic!</p>
+                        <div class="points-earned" id="points-earned">+10 ⭐</div>
+                        <button class="btn btn-success" id="next-lesson" style="margin-top: 1rem;">
+                            Next Lesson →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Turtle Lesson View -->
+        <section id="turtle-view" class="view">
+            <div class="back-btn" id="back-from-turtle">
+                ← Back to Lessons
+            </div>
+
+            <div class="coding-layout">
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title" id="turtle-lesson-title">Wand Drawing</span>
+                    </div>
+                    <div class="instructions" id="turtle-instructions">
+                        <!-- Turtle lesson content -->
+                    </div>
+                </div>
+
+                <div>
+                    <div class="panel" style="margin-bottom: 1rem;">
+                        <div class="panel-header">
+                            <span class="panel-title">✨ Drawing Spell</span>
+                            <div class="controls">
+                                <button class="btn btn-magic" id="run-turtle">
+                                    🪄 Draw!
+                                </button>
+                                <button class="btn btn-secondary" id="clear-turtle">
+                                    🧹 Clear Canvas
+                                </button>
+                            </div>
+                        </div>
+                        <textarea class="code-editor" id="turtle-editor" placeholder="Write your drawing spell here..." spellcheck="false"></textarea>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">🎨 Magical Canvas</span>
+                        </div>
+                        <div class="turtle-container">
+                            <canvas id="turtle-canvas" width="400" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sandbox View -->
+        <section id="sandbox-view" class="view">
+            <div class="sandbox-intro">
+                <h2>🧙‍♂️ Free Practice Chamber</h2>
+                <p>Practice any spell you've learned! This is your space to experiment and create.</p>
+            </div>
+
+            <div class="coding-layout">
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">✨ Your Spell</span>
+                        <div class="controls">
+                            <button class="btn btn-magic" id="sandbox-run">
+                                🪄 Cast Spell
+                            </button>
+                            <button class="btn btn-secondary" id="sandbox-clear">
+                                🧹 Clear All
+                            </button>
+                        </div>
+                    </div>
+                    <textarea class="code-editor" id="sandbox-editor" style="min-height: 300px;" placeholder="# Write any Python spell here!
+# Try things like:
+
+print('Hello, Wizard!')
+
+name = 'Harry'
+print('Welcome, ' + name)
+
+for i in range(5):
+    print('Magic! ✨')
+" spellcheck="false"></textarea>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">📜 Output</span>
+                    </div>
+                    <div class="output-console" id="sandbox-output" style="min-height: 300px;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spellbook View -->
+        <section id="spellbook-view" class="view">
+            <div class="spellbook">
+                <h2>📖 The Python Spellbook</h2>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+                    A reference of all the magical spells (code) you'll learn
+                </p>
+
+                <div class="spell-category">
+                    <h3>🔮 Basic Incantations</h3>
+                    <div class="spell-entry">
+                        <code>print("message")</code>
+                        <p>Makes words appear magically! Like casting Lumos to reveal text.</p>
+                    </div>
+                    <div class="spell-entry">
+                        <code>input("question")</code>
+                        <p>Asks the wizard (user) a question and remembers their answer.</p>
+                    </div>
+                </div>
+
+                <div class="spell-category">
+                    <h3>📦 Magical Containers (Variables)</h3>
+                    <div class="spell-entry">
+                        <code>name = "Hermione"</code>
+                        <p>Stores a piece of text (called a "string") in a magical container.</p>
+                    </div>
+                    <div class="spell-entry">
+                        <code>age = 11</code>
+                        <p>Stores a number in a container. Numbers don't need quotes!</p>
+                    </div>
+                </div>
+
+                <div class="spell-category">
+                    <h3>🧮 Arithmancy (Maths)</h3>
+                    <div class="spell-entry">
+                        <code>+ - * /</code>
+                        <p>Add, subtract, multiply, and divide numbers.</p>
+                    </div>
+                    <div class="spell-entry">
+                        <code>**</code>
+                        <p>Powers! Like 2**3 means 2×2×2 = 8</p>
+                    </div>
+                </div>
+
+                <div class="spell-category">
+                    <h3>🎭 The Sorting Hat (Decisions)</h3>
+                    <div class="spell-entry">
+                        <code>if condition:</code>
+                        <p>Do something only IF a condition is true.</p>
+                    </div>
+                    <div class="spell-entry">
+                        <code>else:</code>
+                        <p>Do something different if the condition was false.</p>
+                    </div>
+                    <div class="spell-entry">
+                        <code>elif condition:</code>
+                        <p>Check another condition (short for "else if").</p>
+                    </div>
+                </div>
+
+                <div class="spell-category">
+                    <h3>🔄 Time-Turner (Loops)</h3>
+                    <div class="spell-entry">
+                        <code>for i in range(5):</code>
+                        <p>Repeat something a certain number of times (5 times here).</p>
+                    </div>
+                    <div class="spell-entry">
+                        <code>for item in list:</code>
+                        <p>Go through each thing in a list, one by one.</p>
+                    </div>
+                    <div class="spell-entry">
+                        <code>while condition:</code>
+                        <p>Keep repeating while something is true.</p>
+                    </div>
+                </div>
+
+                <div class="spell-category">
+                    <h3>📚 Magical Lists</h3>
+                    <div class="spell-entry">
+                        <code>creatures = ["dragon", "phoenix", "hippogriff"]</code>
+                        <p>A list holds multiple items in order.</p>
+                    </div>
+                    <div class="spell-entry">
+                        <code>creatures[0]</code>
+                        <p>Get the first item (counting starts at 0!).</p>
+                    </div>
+                    <div class="spell-entry">
+                        <code>creatures.append("unicorn")</code>
+                        <p>Add a new item to the end of a list.</p>
+                    </div>
+                </div>
+
+                <div class="spell-category">
+                    <h3>✨ Creating Your Own Spells (Functions)</h3>
+                    <div class="spell-entry">
+                        <code>def spell_name():</code>
+                        <p>Create a new spell you can use again and again!</p>
+                    </div>
+                    <div class="spell-entry">
+                        <code>def greet(name):</code>
+                        <p>A spell that takes an ingredient (parameter).</p>
+                    </div>
+                    <div class="spell-entry">
+                        <code>return value</code>
+                        <p>Send back a result from your spell.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements View -->
+        <section id="achievements-view" class="view">
+            <h2 style="font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 1.8rem; margin-bottom: 0.5rem; text-align: center;">
+                🏆 Your Achievements
+            </h2>
+            <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+                Earn badges by completing lessons and mastering spells!
+            </p>
+
+            <div class="progress-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-points">0</div>
+                    <div class="stat-label">Total House Points</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-lessons">0</div>
+                    <div class="stat-label">Lessons Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-spells">0</div>
+                    <div class="stat-label">Spells Cast</div>
+                </div>
+            </div>
+
+            <div class="achievements-grid" id="achievements-grid">
+                <!-- Achievements populated by JavaScript -->
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-secondary" id="export-save">📥 Export Progress</button>
+                <label class="btn btn-secondary" style="cursor: pointer;">
+                    📤 Import Progress
+                    <input type="file" id="import-save" accept=".json" hidden>
+                </label>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+
+    <script>
+        // ==================== LESSONS DATA ====================
+        const lessons = [
+            {
+                id: 1,
+                title: "Your First Spell",
+                subtitle: "Lumos - Making Words Appear",
+                icon: "💡",
+                points: 10,
+                instructions: `
+                    <h3>💡 Lumos - Your First Spell!</h3>
+                    <p>Every witch and wizard starts by learning to make light appear from their wand. In Python, we make <strong>words appear</strong> using the <code>print()</code> spell!</p>
+
+                    <p>Type this magical incantation:</p>
+                    <pre><code>print("Lumos!")</code></pre>
+
+                    <p>The words inside the quotes will magically appear below!</p>
+
+                    <div class="hint-box">
+                        Make sure to use quote marks " " around your words, and don't forget the brackets ( )
+                    </div>
+
+                    <p><strong>Your Challenge:</strong> Make the spell print exactly: <code>Lumos!</code></p>
+                `,
+                starterCode: '# Type your spell below:\nprint("Lumos!")',
+                validator: (output) => output.trim() === 'Lumos!',
+                successMessage: "Brilliant! You've cast your first spell! The light shines bright! ✨"
+            },
+            {
+                id: 2,
+                title: "Naming Your Owl",
+                subtitle: "Variables - Magical Containers",
+                icon: "🦉",
+                points: 15,
+                instructions: `
+                    <h3>🦉 Magical Containers (Variables)</h3>
+                    <p>When you arrive at Hogwarts, you need to name your owl! In Python, we store names and other information in <strong>magical containers</strong> called variables.</p>
+
+                    <p>Here's how to store a name:</p>
+                    <pre><code>owl_name = "Hedwig"
+print(owl_name)</code></pre>
+
+                    <p>The <code>=</code> sign puts the name "Hedwig" inside the container called <code>owl_name</code>.</p>
+
+                    <div class="hint-box">
+                        Variable names can't have spaces! Use underscores _ instead.
+                    </div>
+
+                    <p><strong>Your Challenge:</strong> Create a variable called <code>owl_name</code> with any name you like, then print it!</p>
+                `,
+                starterCode: '# Give your owl a name!\nowl_name = ""\nprint(owl_name)',
+                validator: (output) => output.trim().length > 0,
+                successMessage: "Wonderful! Your owl now has a name! 🦉"
+            },
+            {
+                id: 3,
+                title: "Potions Class",
+                subtitle: "Maths with Python",
+                icon: "⚗️",
+                points: 15,
+                instructions: `
+                    <h3>⚗️ Potions Class - Magical Maths</h3>
+                    <p>In Potions class, you must measure ingredients precisely! Python can do maths for you:</p>
+
+                    <pre><code>beetles = 5
+spider_legs = 8
+total = beetles + spider_legs
+print(total)</code></pre>
+
+                    <p>Python maths symbols:</p>
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li><code>+</code> Add</li>
+                        <li><code>-</code> Subtract</li>
+                        <li><code>*</code> Multiply</li>
+                        <li><code>/</code> Divide</li>
+                    </ul>
+
+                    <p><strong>Your Challenge:</strong> Calculate how many potion ingredients you need in total:</p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>3 unicorn hairs</li>
+                        <li>7 phoenix feathers</li>
+                        <li>2 dragon scales</li>
+                    </ul>
+                    <p>Print the total (should be <code>12</code>)</p>
+                `,
+                starterCode: '# Calculate your potion ingredients!\nunicorn_hairs = 3\nphoenix_feathers = 7\ndragon_scales = 2\n\ntotal = \nprint(total)',
+                validator: (output) => output.trim() === '12',
+                successMessage: "Perfect calculations! Professor Snape would be impressed! ⚗️"
+            },
+            {
+                id: 4,
+                title: "The Sorting Ceremony",
+                subtitle: "Making Decisions with If/Else",
+                icon: "🎩",
+                points: 20,
+                instructions: `
+                    <h3>🎩 The Sorting Hat's Decision</h3>
+                    <p>The Sorting Hat makes decisions based on what it sees! Python can make decisions too using <code>if</code> and <code>else</code>:</p>
+
+                    <pre><code>bravery = 10
+
+if bravery > 7:
+    print("Gryffindor!")
+else:
+    print("Another house...")</code></pre>
+
+                    <p>The code after <code>if</code> only runs when the condition is <strong>True</strong>.</p>
+
+                    <div class="hint-box">
+                        The spaces before print() are important! They're called "indentation" and show what belongs inside the if.
+                    </div>
+
+                    <p><strong>Your Challenge:</strong> Complete the sorting spell! If <code>wisdom</code> is greater than 8, print <code>Ravenclaw!</code></p>
+                `,
+                starterCode: '# Complete the Sorting Hat spell!\nwisdom = 9\n\nif wisdom > 8:\n    print("Ravenclaw!")\nelse:\n    print("Keep studying!")',
+                validator: (output) => output.trim() === 'Ravenclaw!',
+                successMessage: "The Sorting Hat has spoken! Welcome to your house! 🎩"
+            },
+            {
+                id: 5,
+                title: "Quidditch Practice",
+                subtitle: "Loops - Repeating Actions",
+                icon: "🧹",
+                points: 20,
+                instructions: `
+                    <h3>🧹 Quidditch Training - Loops</h3>
+                    <p>In Quidditch, you practice the same moves over and over! Python can repeat things using <strong>loops</strong>:</p>
+
+                    <pre><code>for lap in range(3):
+    print("Fly around the pitch!")</code></pre>
+
+                    <p>This will print the message 3 times! The <code>range(3)</code> means "do this 3 times".</p>
+
+                    <div class="hint-box">
+                        <code>range(5)</code> counts: 0, 1, 2, 3, 4 (that's 5 numbers, starting from 0!)
+                    </div>
+
+                    <p><strong>Your Challenge:</strong> Make the seeker practice catching the snitch 5 times! Print <code>Catch!</code> exactly 5 times.</p>
+                `,
+                starterCode: '# Quidditch practice - repeat 5 times!\nfor attempt in range(5):\n    print("Catch!")',
+                validator: (output) => output.trim().split('\n').filter(l => l.trim() === 'Catch!').length === 5,
+                successMessage: "Excellent flying! You caught the snitch every time! 🏆"
+            },
+            {
+                id: 6,
+                title: "Care of Magical Creatures",
+                subtitle: "Lists - Collections of Things",
+                icon: "🐉",
+                points: 20,
+                instructions: `
+                    <h3>🐉 Magical Creatures List</h3>
+                    <p>Hagrid keeps a list of all his magical creatures! In Python, a <strong>list</strong> holds multiple items:</p>
+
+                    <pre><code>creatures = ["Hippogriff", "Dragon", "Phoenix"]
+print(creatures[0])  # Prints: Hippogriff</code></pre>
+
+                    <p>Important: Lists start counting at <strong>0</strong>, not 1!</p>
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li><code>creatures[0]</code> → First item</li>
+                        <li><code>creatures[1]</code> → Second item</li>
+                        <li><code>creatures[2]</code> → Third item</li>
+                    </ul>
+
+                    <p><strong>Your Challenge:</strong> Create a list of 3 magical creatures and print the second one!</p>
+                `,
+                starterCode: '# Create your creatures list!\ncreatures = ["Dragon", "Unicorn", "Phoenix"]\n\n# Print the second creature (remember, counting starts at 0!)\nprint(creatures[1])',
+                validator: (output) => output.trim().length > 0,
+                successMessage: "Wonderful! You're a natural at caring for magical creatures! 🐉"
+            },
+            {
+                id: 7,
+                title: "Creating Your Own Spells",
+                subtitle: "Functions - Reusable Magic",
+                icon: "✨",
+                points: 25,
+                instructions: `
+                    <h3>✨ Inventing New Spells (Functions)</h3>
+                    <p>Advanced wizards can create their own spells! In Python, we call these <strong>functions</strong>:</p>
+
+                    <pre><code>def cast_lumos():
+    print("✨ Light appears!")
+    print("The room brightens!")
+
+# Use your spell:
+cast_lumos()</code></pre>
+
+                    <p>Once you create a function with <code>def</code>, you can use it whenever you want!</p>
+
+                    <div class="hint-box">
+                        Don't forget the colon : after the function name, and indent the code inside!
+                    </div>
+
+                    <p><strong>Your Challenge:</strong> Create a function called <code>cast_expelliarmus</code> that prints <code>Expelliarmus!</code>, then call it!</p>
+                `,
+                starterCode: '# Create your own spell!\ndef cast_expelliarmus():\n    print("Expelliarmus!")\n\n# Cast your spell:\ncast_expelliarmus()',
+                validator: (output) => output.trim().includes('Expelliarmus!'),
+                successMessage: "Incredible! You've invented your own spell! You're becoming a true wizard! ✨"
+            },
+            {
+                id: 8,
+                title: "Spells with Ingredients",
+                subtitle: "Functions with Parameters",
+                icon: "🧪",
+                points: 25,
+                instructions: `
+                    <h3>🧪 Spells That Take Ingredients</h3>
+                    <p>Some spells need ingredients (called <strong>parameters</strong>):</p>
+
+                    <pre><code>def greet_wizard(name):
+    print("Hello, " + name + "!")
+
+greet_wizard("Harry")
+greet_wizard("Hermione")</code></pre>
+
+                    <p>The <code>name</code> in brackets is like a blank space that gets filled in when you use the spell!</p>
+
+                    <p><strong>Your Challenge:</strong> Create a function <code>summon</code> that takes an <code>animal</code> parameter and prints <code>Accio [animal]!</code></p>
+                    <p>For example, <code>summon("owl")</code> should print <code>Accio owl!</code></p>
+                `,
+                starterCode: '# Create a summoning spell!\ndef summon(animal):\n    print("Accio " + animal + "!")\n\n# Test your spell:\nsummon("broomstick")',
+                validator: (output) => output.trim().startsWith('Accio') && output.trim().endsWith('!'),
+                successMessage: "Masterful! You can now create powerful, flexible spells! 🧙‍♂️"
+            },
+            {
+                id: 9,
+                title: "The Marauder's Map",
+                subtitle: "Combining Everything",
+                icon: "🗺️",
+                points: 30,
+                instructions: `
+                    <h3>🗺️ The Marauder's Map</h3>
+                    <p>Time to combine all your skills! The Marauder's Map shows people moving around Hogwarts.</p>
+
+                    <p>Let's create a spell that tracks people:</p>
+                    <pre><code>people = ["Harry", "Ron", "Hermione"]
+
+def track(person):
+    print(person + " is on the move!")
+
+for person in people:
+    track(person)</code></pre>
+
+                    <p><strong>Your Challenge:</strong> Create a list of 3 people and use a loop to track each one. The output should show all 3 people "on the move"!</p>
+                `,
+                starterCode: '# The Marauder\'s Map\npeople = ["Harry", "Ron", "Hermione"]\n\ndef track(person):\n    print(person + " is on the move!")\n\nfor person in people:\n    track(person)',
+                validator: (output) => output.trim().split('\n').length >= 3 && output.includes('on the move'),
+                successMessage: "Mischief managed! You've mastered Python basics! 🗺️"
+            },
+            {
+                id: 10,
+                title: "Wand Movements",
+                subtitle: "Drawing with Turtle Graphics",
+                icon: "🪄",
+                points: 30,
+                isTurtle: true,
+                instructions: `
+                    <h3>🪄 Drawing with Your Wand</h3>
+                    <p>Now for the most magical part - drawing with code! You control a magical cursor (turtle) that draws as it moves.</p>
+
+                    <p>Basic wand movements:</p>
+                    <pre><code>forward(100)   # Move forward 100 steps
+right(90)      # Turn right 90 degrees
+left(90)       # Turn left 90 degrees
+penup()        # Stop drawing
+pendown()      # Start drawing again</code></pre>
+
+                    <p><strong>Your Challenge:</strong> Draw a square! Move forward, turn right, and repeat 4 times.</p>
+                `,
+                starterCode: '# Draw a square with your wand!\nfor i in range(4):\n    forward(100)\n    right(90)',
+                validator: () => true,
+                successMessage: "Beautiful! Your wand drawings are magical! 🪄"
+            }
+        ];
+
+        // ==================== ACHIEVEMENTS DATA ====================
+        const achievements = [
+            { id: 'first_spell', title: 'First Spell', desc: 'Cast your first spell', icon: '🌟', condition: (p) => p.lessonsCompleted >= 1 },
+            { id: 'apprentice', title: 'Apprentice Wizard', desc: 'Complete 3 lessons', icon: '🧙', condition: (p) => p.lessonsCompleted >= 3 },
+            { id: 'student', title: 'Hogwarts Student', desc: 'Complete 5 lessons', icon: '🏰', condition: (p) => p.lessonsCompleted >= 5 },
+            { id: 'adept', title: 'Magical Adept', desc: 'Complete all lessons', icon: '⚡', condition: (p) => p.lessonsCompleted >= lessons.length },
+            { id: 'points_50', title: 'Point Collector', desc: 'Earn 50 House Points', icon: '⭐', condition: (p) => p.totalPoints >= 50 },
+            { id: 'points_100', title: 'House Champion', desc: 'Earn 100 House Points', icon: '🏆', condition: (p) => p.totalPoints >= 100 },
+            { id: 'points_200', title: 'Grand Wizard', desc: 'Earn 200 House Points', icon: '👑', condition: (p) => p.totalPoints >= 200 },
+            { id: 'caster', title: 'Spell Caster', desc: 'Cast 10 spells', icon: '✨', condition: (p) => p.spellsCast >= 10 },
+            { id: 'master_caster', title: 'Master Caster', desc: 'Cast 50 spells', icon: '🔮', condition: (p) => p.spellsCast >= 50 },
+            { id: 'artist', title: 'Magical Artist', desc: 'Complete the Turtle lesson', icon: '🎨', condition: (p) => p.completedLessons.includes(10) },
+        ];
+
+        // ==================== APP STATE ====================
+        let pyodide = null;
+        let currentLesson = null;
+        let progress = loadProgress();
+
+        function loadProgress() {
+            const saved = localStorage.getItem('wizard_academy_progress');
+            return saved ? JSON.parse(saved) : {
+                totalPoints: 0,
+                lessonsCompleted: 0,
+                completedLessons: [],
+                spellsCast: 0,
+                achievements: []
+            };
+        }
+
+        function saveProgress() {
+            localStorage.setItem('wizard_academy_progress', JSON.stringify(progress));
+            updateUI();
+        }
+
+        // ==================== PYODIDE INITIALIZATION ====================
+        async function initPyodide() {
+            try {
+                pyodide = await loadPyodide();
+                document.getElementById('loading').classList.add('hidden');
+                console.log('Pyodide loaded successfully!');
+            } catch (error) {
+                console.error('Failed to load Pyodide:', error);
+                document.querySelector('.loading-text').textContent = 'Error loading magic...';
+                document.querySelector('.loading-subtext').textContent = 'Please refresh the page';
+            }
+        }
+
+        // ==================== CODE EXECUTION ====================
+        async function runPythonCode(code, outputElement) {
+            if (!pyodide) {
+                outputElement.innerHTML = '<span class="output-error">Magic is still loading... please wait!</span>';
+                return null;
+            }
+
+            outputElement.innerHTML = '';
+
+            try {
+                // Capture stdout
+                pyodide.runPython(`
+import sys
+from io import StringIO
+sys.stdout = StringIO()
+                `);
+
+                // Run user code
+                await pyodide.runPythonAsync(code);
+
+                // Get output
+                const output = pyodide.runPython('sys.stdout.getvalue()');
+
+                if (output) {
+                    outputElement.innerHTML = `<span class="output-success">${escapeHtml(output)}</span>`;
+                } else {
+                    outputElement.innerHTML = '<span class="output-info">Spell cast successfully! (no output)</span>';
+                }
+
+                progress.spellsCast++;
+                saveProgress();
+
+                return output;
+            } catch (error) {
+                const errorMsg = error.message || String(error);
+                outputElement.innerHTML = `<span class="output-error">🔴 Spell Error:\n${escapeHtml(errorMsg)}</span>`;
+                return null;
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ==================== TURTLE GRAPHICS ====================
+        function initTurtle() {
+            const canvas = document.getElementById('turtle-canvas');
+            const ctx = canvas.getContext('2d');
+
+            let x = canvas.width / 2;
+            let y = canvas.height / 2;
+            let angle = -90; // Start facing up
+            let penDown = true;
+            let penColor = '#e94560';
+            let penWidth = 2;
+
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = penColor;
+            ctx.lineWidth = penWidth;
+            ctx.lineCap = 'round';
+
+            return {
+                forward: (distance) => {
+                    const newX = x + distance * Math.cos(angle * Math.PI / 180);
+                    const newY = y + distance * Math.sin(angle * Math.PI / 180);
+                    if (penDown) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, y);
+                        ctx.lineTo(newX, newY);
+                        ctx.stroke();
+                    }
+                    x = newX;
+                    y = newY;
+                },
+                backward: (distance) => {
+                    const newX = x - distance * Math.cos(angle * Math.PI / 180);
+                    const newY = y - distance * Math.sin(angle * Math.PI / 180);
+                    if (penDown) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, y);
+                        ctx.lineTo(newX, newY);
+                        ctx.stroke();
+                    }
+                    x = newX;
+                    y = newY;
+                },
+                right: (degrees) => { angle += degrees; },
+                left: (degrees) => { angle -= degrees; },
+                penup: () => { penDown = false; },
+                pendown: () => { penDown = true; },
+                color: (c) => { penColor = c; ctx.strokeStyle = c; },
+                width: (w) => { penWidth = w; ctx.lineWidth = w; },
+                goto: (newX, newY) => {
+                    if (penDown) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, y);
+                        ctx.lineTo(newX + canvas.width/2, -newY + canvas.height/2);
+                        ctx.stroke();
+                    }
+                    x = newX + canvas.width/2;
+                    y = -newY + canvas.height/2;
+                },
+                circle: (radius) => {
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+                    if (penDown) ctx.stroke();
+                },
+                clear: () => {
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    x = canvas.width / 2;
+                    y = canvas.height / 2;
+                    angle = -90;
+                }
+            };
+        }
+
+        function runTurtleCode(code) {
+            const turtle = initTurtle();
+
+            try {
+                // Create a function with turtle commands available
+                const turtleFunc = new Function(
+                    'forward', 'backward', 'right', 'left',
+                    'penup', 'pendown', 'color', 'width', 'goto', 'circle',
+                    code
+                );
+
+                turtleFunc(
+                    turtle.forward, turtle.backward, turtle.right, turtle.left,
+                    turtle.penup, turtle.pendown, turtle.color, turtle.width,
+                    turtle.goto, turtle.circle
+                );
+
+                progress.spellsCast++;
+                saveProgress();
+
+                return true;
+            } catch (error) {
+                alert('Drawing spell error: ' + error.message);
+                return false;
+            }
+        }
+
+        // ==================== UI FUNCTIONS ====================
+        function updateUI() {
+            // Update points display
+            document.getElementById('total-points').textContent = progress.totalPoints;
+            document.getElementById('stat-points').textContent = progress.totalPoints;
+            document.getElementById('stat-lessons').textContent = progress.lessonsCompleted;
+            document.getElementById('stat-spells').textContent = progress.spellsCast;
+
+            // Update lessons grid
+            renderLessons();
+
+            // Update achievements
+            renderAchievements();
+        }
+
+        function renderLessons() {
+            const grid = document.getElementById('lessons-grid');
+            grid.innerHTML = lessons.map((lesson, index) => {
+                const isCompleted = progress.completedLessons.includes(lesson.id);
+                const isLocked = index > 0 && !progress.completedLessons.includes(lessons[index - 1].id);
+
+                return `
+                    <div class="lesson-card ${isCompleted ? 'completed' : ''} ${isLocked ? 'locked' : ''}"
+                         data-lesson="${lesson.id}" ${isLocked ? '' : 'onclick="openLesson(' + lesson.id + ')"'}>
+                        <div class="lesson-icon">${lesson.icon}</div>
+                        <div class="lesson-number">Lesson ${lesson.id}</div>
+                        <div class="lesson-title">${lesson.title}</div>
+                        <div class="lesson-desc">${lesson.subtitle}</div>
+                        <div class="lesson-points">${isCompleted ? '✓ Completed' : '+' + lesson.points + ' ⭐'}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderAchievements() {
+            const grid = document.getElementById('achievements-grid');
+            grid.innerHTML = achievements.map(ach => {
+                const unlocked = ach.condition(progress);
+                if (unlocked && !progress.achievements.includes(ach.id)) {
+                    progress.achievements.push(ach.id);
+                    saveProgress();
+                }
+
+                return `
+                    <div class="achievement-card ${unlocked ? 'unlocked' : 'locked'}">
+                        <div class="achievement-icon">${ach.icon}</div>
+                        <div class="achievement-title">${ach.title}</div>
+                        <div class="achievement-desc">${ach.desc}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openLesson(lessonId) {
+            currentLesson = lessons.find(l => l.id === lessonId);
+            if (!currentLesson) return;
+
+            if (currentLesson.isTurtle) {
+                document.getElementById('turtle-lesson-title').textContent = currentLesson.title;
+                document.getElementById('turtle-instructions').innerHTML = currentLesson.instructions;
+                document.getElementById('turtle-editor').value = currentLesson.starterCode;
+
+                showView('turtle');
+
+                // Clear canvas
+                const canvas = document.getElementById('turtle-canvas');
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            } else {
+                document.getElementById('lesson-title').textContent = currentLesson.title;
+                document.getElementById('lesson-instructions').innerHTML = currentLesson.instructions;
+                document.getElementById('code-editor').value = currentLesson.starterCode;
+                document.getElementById('lesson-points-display').textContent = '+' + currentLesson.points + ' ⭐';
+                document.getElementById('output-console').innerHTML = '';
+                document.getElementById('challenge-result').className = 'challenge-result';
+
+                showView('lesson');
+            }
+        }
+
+        function showView(viewName) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewName + '-view').classList.add('active');
+
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            const navBtn = document.querySelector(`nav button[data-view="${viewName}"]`);
+            if (navBtn) navBtn.classList.add('active');
+        }
+
+        function completeLesson(lesson) {
+            if (!progress.completedLessons.includes(lesson.id)) {
+                progress.completedLessons.push(lesson.id);
+                progress.totalPoints += lesson.points;
+                progress.lessonsCompleted++;
+                saveProgress();
+            }
+
+            document.getElementById('result-message').textContent = lesson.successMessage;
+            document.getElementById('points-earned').textContent = '+' + lesson.points + ' ⭐';
+            document.getElementById('challenge-result').className = 'challenge-result success';
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            initPyodide();
+            updateUI();
+
+            // Navigation
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const view = btn.dataset.view;
+                    showView(view);
+                });
+            });
+
+            // Back buttons
+            document.getElementById('back-to-lessons').addEventListener('click', () => showView('lessons'));
+            document.getElementById('back-from-turtle').addEventListener('click', () => showView('lessons'));
+
+            // Run code button
+            document.getElementById('run-code').addEventListener('click', async () => {
+                const code = document.getElementById('code-editor').value;
+                const output = await runPythonCode(code, document.getElementById('output-console'));
+
+                if (output !== null && currentLesson && currentLesson.validator(output)) {
+                    completeLesson(currentLesson);
+                }
+            });
+
+            // Reset code button
+            document.getElementById('reset-code').addEventListener('click', () => {
+                if (currentLesson) {
+                    document.getElementById('code-editor').value = currentLesson.starterCode;
+                }
+            });
+
+            // Clear output button
+            document.getElementById('clear-output').addEventListener('click', () => {
+                document.getElementById('output-console').innerHTML = '';
+            });
+
+            // Next lesson button
+            document.getElementById('next-lesson').addEventListener('click', () => {
+                if (currentLesson) {
+                    const nextLesson = lessons.find(l => l.id === currentLesson.id + 1);
+                    if (nextLesson) {
+                        openLesson(nextLesson.id);
+                    } else {
+                        showView('lessons');
+                    }
+                }
+            });
+
+            // Turtle controls
+            document.getElementById('run-turtle').addEventListener('click', () => {
+                const code = document.getElementById('turtle-editor').value;
+                if (runTurtleCode(code) && currentLesson) {
+                    completeLesson(currentLesson);
+                }
+            });
+
+            document.getElementById('clear-turtle').addEventListener('click', () => {
+                const canvas = document.getElementById('turtle-canvas');
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            });
+
+            // Sandbox controls
+            document.getElementById('sandbox-run').addEventListener('click', async () => {
+                const code = document.getElementById('sandbox-editor').value;
+                await runPythonCode(code, document.getElementById('sandbox-output'));
+            });
+
+            document.getElementById('sandbox-clear').addEventListener('click', () => {
+                document.getElementById('sandbox-editor').value = '';
+                document.getElementById('sandbox-output').innerHTML = '';
+            });
+
+            // Export/Import
+            document.getElementById('export-save').addEventListener('click', () => {
+                const data = {
+                    version: 1,
+                    exportedAt: new Date().toISOString(),
+                    progress: progress
+                };
+
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `wizard-academy-progress-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+
+            document.getElementById('import-save').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        if (data.progress) {
+                            progress = data.progress;
+                            saveProgress();
+                            alert('Progress imported successfully! ✨');
+                        }
+                    } catch (err) {
+                        alert('Error importing file: ' + err.message);
+                    }
+                };
+                reader.readAsText(file);
+                e.target.value = '';
+            });
+        });
+    </script>
+</body>
+</html>
